@@ -1,6 +1,6 @@
 defmodule InverseCaptcha do
   @moduledoc """
-  Solves the Inverse Captcha problem.
+  Solves Part 1 of the Inverse Captcha problem.
   http://adventofcode.com/2017/day/1
 
   Run with:
