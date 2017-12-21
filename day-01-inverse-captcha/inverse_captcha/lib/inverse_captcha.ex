@@ -10,6 +10,9 @@ defmodule InverseCaptcha do
   """
 
   @doc """
+  Solves the given captcha string by summing all the digits that match
+  their next digit --- the given string is assumed to be circular.
+
   ## Examples
 
       iex> solve_captcha("1122")
