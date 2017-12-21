@@ -4,7 +4,9 @@ defmodule InverseCaptcha do
   http://adventofcode.com/2017/day/1
 
   Run with:
-  mix run -e 'IO.puts InverseCaptcha.solve_captcha "1122"'
+
+      mix
+      ./inverse_captcha 1122
   """
 
   def solve_captcha(string) do
@@ -51,5 +53,12 @@ defmodule InverseCaptcha do
            acc
          end
        end)
+  end
+end
+
+defmodule InverseCaptcha.CLI do
+  def main(args) do
+    string = hd(args)
+    IO.puts InverseCaptcha.solve_captcha(string)
   end
 end
