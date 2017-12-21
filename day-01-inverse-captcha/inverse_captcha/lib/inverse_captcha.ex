@@ -11,7 +11,8 @@ defmodule InverseCaptcha do
 
   @doc """
   Solves the given captcha string by summing all the digits that match
-  their next digit --- the given string is assumed to be circular.
+  their immediately next digit. The given string is assumed to be
+  circular so that "1122" is treated as "11221..." and so on.
 
   ## Examples
 
