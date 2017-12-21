@@ -9,50 +9,32 @@ defmodule InverseCaptcha do
       ./inverse_captcha 1122
   """
 
-  def solve_captcha(string) do
-    string
-    |> string_to_list
-    |> sum_of_digits_matching_next
-  end
-
-  @doc """
-      iex> string_to_list("1122")
-      [1, 1, 2, 2]
-  """
-  defp string_to_list(string) do
-    string
-    |> String.splitter("", trim: true)
-    |> Stream.map(& String.to_integer(&1))
-    |> Enum.to_list
-  end
-
   @doc """
   ## Examples
 
-      iex> sum_of_digits_matching_next([1, 1, 2, 2])
+      iex> solve_captcha("1122")
       3
 
-      iex> sum_of_digits_matching_next([1, 1, 1, 1])
+      iex> solve_captcha("1111")
       4
 
-      iex> sum_of_digits_matching_next([1, 2, 3, 4])
+      iex> solve_captcha("1234")
       0
 
-      iex> sum_of_digits_matching_next([9, 1, 2, 1, 2, 1, 2, 9])
+      iex> solve_captcha("91212129")
       9
   """
-  defp sum_of_digits_matching_next(list) do
-    list_with_head = (list ++ [hd(list)])
+  def solve_captcha(string) do
+    digit_stream =
+      string                                        # "1122"
+      |> String.splitter("", trim: true)            # ["1", "1", "2", "2"]
+      |> Stream.map(& String.to_integer(&1))        # [1, 1, 2, 2]
 
-    list_with_head
-    |> Enum.zip(tl(list_with_head))
-    |> Enum.reduce(0, fn {x, y}, acc ->
-         if x == y do
-           x + acc
-         else
-           acc
-         end
-       end)
+    digit_stream
+    |> Stream.chunk_every(2, 1, Enum.take(digit_stream, 1)) # [[1, 1], [1, 2], [2, 2], [2, 1]]
+    |> Stream.filter(fn [x, y] -> x == y end)               # [[1, 1], [2, 2]]
+    |> Stream.map(fn [x, _] -> x end)                       # [1, 2]
+    |> Enum.sum                                             # 3
   end
 end
 
